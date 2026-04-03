@@ -878,5 +878,28 @@ export default function App() {
     {scr === "messages" && <Messages onBack={() => { setScr("home"); setTab("home"); }} />}
     {scr === "appointment" && <Appointment onBack={() => { setScr("home"); setTab("home"); }} />}
     {showNav && <Nav active={tab} onNav={nav} unread={true} />}
+    <a
+  href="https://wa.me/573108211543?text=Hola%20quiero%20información%20sobre%20Maná%20en%20Casa"
+  target="_blank"
+  rel="noopener noreferrer"
+  style={{
+    position: "fixed",
+    bottom: 20,
+    right: 20,
+    width: 56,
+    height: 56,
+    borderRadius: "50%",
+    background: "#25D366",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    boxShadow: "0 6px 20px rgba(0,0,0,0.25)",
+    zIndex: 999,
+    textDecoration: "none",
+    fontSize: 26
+  }}
+>
+  💬
+</a>
   </div>);
 }
