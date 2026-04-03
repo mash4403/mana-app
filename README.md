@@ -79,6 +79,6 @@ Implementación de acceso restringido:
 
 **Dr. Miguel A. Saavedra H.**
 MD. Especialista en Medicina Interna y Hemato-Oncología
-Oncología Integrativa
-
-Centro Médico Integrativo Maná
+Oncología Integrativa 
+Inteligencia Artifical
+Aurix Health
