@@ -884,19 +884,19 @@ export default function App() {
   rel="noopener noreferrer"
   style={{
     position: "fixed",
-    bottom: 20,
+    bottom: 90,
     right: 20,
-    width: 56,
-    height: 56,
+    width: 60,
+    height: 60,
     borderRadius: "50%",
     background: "#25D366",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    boxShadow: "0 6px 20px rgba(0,0,0,0.25)",
+    boxShadow: "0 8px 24px rgba(0,0,0,0.3)",
     zIndex: 999,
     textDecoration: "none",
-    fontSize: 26
+    fontSize: 28
   }}
 >
   💬
