@@ -1,23 +1,18 @@
 import { useState, useEffect, useRef } from "react";
 
 // ─── CORPORATE PALETTE ─────────────────────────────────
-// Green Pantone 4213C: #6A9033
-// Blue Pantone 4213C: #135193
-// Gold/Dorado accent
-// White + warm neutrals
-
 const COLORS = {
   bg: "#FAFAF6",
   bgWarm: "#F5F3ED",
   bgDark: "#1B3A14",
-  primary: "#6A9033",         // Corporate green
+  primary: "#6A9033",
   primaryDark: "#4E6E22",
   primaryLight: "#EFF4E8",
   primarySoft: "#D4E3BF",
-  secondary: "#135193",       // Corporate blue
+  secondary: "#135193",
   secondaryLight: "#E8EFF8",
   secondaryDark: "#0E3D6E",
-  accent: "#D4A629",          // Gold
+  accent: "#D4A629",
   accentWarm: "#E8C44A",
   accentLight: "#FBF5E0",
   text: "#1E2A16",
@@ -30,8 +25,12 @@ const COLORS = {
 
 const ROUTES = [
   {
-    id: "oncologia", title: "Oncología Integrativa", subtitle: "Acompañamiento en tu proceso oncológico",
-    icon: "🌿", color: COLORS.primary, colorLight: COLORS.primaryLight,
+    id: "oncologia",
+    title: "Oncología Integrativa",
+    subtitle: "Acompañamiento en tu proceso oncológico",
+    icon: "🌿",
+    color: COLORS.primary,
+    colorLight: COLORS.primaryLight,
     modules: [
       { id: 1, title: "Comprender el diagnóstico", duration: "8 min", type: "lectura", completed: true },
       { id: 2, title: "Qué esperar del tratamiento", duration: "10 min", type: "video", completed: true },
@@ -42,8 +41,12 @@ const ROUTES = [
     ],
   },
   {
-    id: "antiedad", title: "Medicina Antiedad y Tricología", subtitle: "Envejecimiento saludable y salud capilar",
-    icon: "✨", color: "#7B9E3F", colorLight: "#F2F6EB",
+    id: "antiedad",
+    title: "Medicina Antiedad y Tricología",
+    subtitle: "Envejecimiento saludable y salud capilar",
+    icon: "✨",
+    color: "#7B9E3F",
+    colorLight: "#F2F6EB",
     modules: [
       { id: 1, title: "Envejecimiento saludable", duration: "8 min", type: "lectura", completed: true },
       { id: 2, title: "Metabolismo y hormonas", duration: "10 min", type: "video", completed: false },
@@ -54,8 +57,12 @@ const ROUTES = [
     ],
   },
   {
-    id: "funcional", title: "Medicina Funcional", subtitle: "Salud desde la raíz y el equilibrio",
-    icon: "🔬", color: COLORS.secondary, colorLight: COLORS.secondaryLight,
+    id: "funcional",
+    title: "Medicina Funcional",
+    subtitle: "Salud desde la raíz y el equilibrio",
+    icon: "🔬",
+    color: COLORS.secondary,
+    colorLight: COLORS.secondaryLight,
     modules: [
       { id: 1, title: "¿Qué es la medicina funcional?", duration: "7 min", type: "lectura", completed: false },
       { id: 2, title: "Tu cuerpo como sistema", duration: "10 min", type: "video", completed: false },
@@ -66,8 +73,12 @@ const ROUTES = [
     ],
   },
   {
-    id: "espiritu", title: "Cuerpo, Alma y Espíritu", subtitle: "Sanación emocional y conexión interior",
-    icon: "🕊️", color: "#3A7048", colorLight: "#E8F2EA",
+    id: "espiritu",
+    title: "Cuerpo, Alma y Espíritu",
+    subtitle: "Sanación emocional y conexión interior",
+    icon: "🕊️",
+    color: "#3A7048",
+    colorLight: "#E8F2EA",
     modules: [
       { id: 1, title: "Dimensión espiritual de la salud", duration: "8 min", type: "lectura", completed: false },
       { id: 2, title: "Emociones y enfermedad", duration: "11 min", type: "video", completed: false },
@@ -86,7 +97,9 @@ const MOCK_MESSAGES = [
 ];
 
 const MODULE_CONTENT = {
-  title: "Nutrición y energía en cáncer", type: "lectura", duration: "12 min",
+  title: "Nutrición y energía en cáncer",
+  type: "lectura",
+  duration: "12 min",
   sections: [
     { text: "Durante el proceso oncológico, la nutrición cumple un papel fundamental en el mantenimiento de la energía, la tolerancia a los tratamientos y el bienestar general." },
     { text: "No se trata de seguir dietas extremas ni de buscar soluciones milagrosas, sino de apoyar al cuerpo de forma adecuada y segura." },
@@ -99,6 +112,9 @@ const MODULE_CONTENT = {
     { type: "lectura", title: "Guía de nutrientes esenciales", pages: "3 págs" },
   ],
 };
+
+// ─── NAV HEIGHT constante para evitar números mágicos ──
+const NAV_HEIGHT = 64;
 
 // ─── ICONS ─────────────────────────────────────────────
 const I = {
@@ -119,371 +135,108 @@ const I = {
   Steth: () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/><path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4"/><circle cx="20" cy="10" r="2"/></svg>,
   Shield: () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
   Info: () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>,
-  Leaf: () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.9C15.5 4.9 17 3.5 19 2c1 2 2 4.5 2 8 0 5.5-3.8 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>,
 };
 
-const TIcon = ({ type }) => { if (type === "video") return <I.Play />; if (type === "audio") return <I.Headphones />; return <I.FileText />; };
+const TIcon = ({ type }) => {
+  if (type === "video") return <I.Play />;
+  if (type === "audio") return <I.Headphones />;
+  return <I.FileText />;
+};
 
 // ─── SPLASH ────────────────────────────────────────────
 function Splash({ onEnter }) {
   const [show, setShow] = useState(false);
-
-  useEffect(() => {
-    setTimeout(() => setShow(true), 100);
-  }, []);
+  useEffect(() => { setTimeout(() => setShow(true), 100); }, []);
 
   return (
-    <div
-      style={{
-        height: "100dvh",
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        background: `linear-gradient(165deg, ${COLORS.bgDark} 0%, #3D6B1E 40%, ${COLORS.primary} 100%)`,
-        padding: "40px 30px",
-        textAlign: "center",
-        transition: "opacity 0.6s",
-        opacity: show ? 1 : 0,
-      }}
-    >
-      <div
-        style={{
-          width: 48,
-          height: 3,
-          background: `linear-gradient(90deg, transparent, ${COLORS.accent}, transparent)`,
-          borderRadius: 2,
-          marginBottom: 24,
-        }}
-      />
+    <div style={{ height: "100dvh", width: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", background: `linear-gradient(165deg, ${COLORS.bgDark} 0%, #3D6B1E 40%, ${COLORS.primary} 100%)`, padding: "40px 30px", textAlign: "center", transition: "opacity 0.6s", opacity: show ? 1 : 0 }}>
+      <div style={{ width: 48, height: 3, borderRadius: 2, marginBottom: 24, background: `linear-gradient(90deg, transparent, ${COLORS.accent}, transparent)` }} />
 
-      <div
-        style={{
-          width: 88,
-          height: 88,
-          borderRadius: 24,
-          background: "rgba(255,255,255,0.12)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          marginBottom: 70,
-          border: "1px solid rgba(255,255,255,0.15)",
-          boxShadow: "0 8px 32px rgba(0,0,0,0.2)",
-        }}
-      >
-        <img
-          src="/logo.png"
-          alt="Maná"
-          style={{
-            width: 200,
-            height: 200,
-            objectFit: "contain",
-          }}
-        />
+      {/* FIX 1: Logo container más grande, imagen ajustada con overflow hidden */}
+      <div style={{ width: 140, height: 140, borderRadius: 32, background: "rgba(255,255,255,0.12)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 32, overflow: "hidden", border: "1px solid rgba(255,255,255,0.15)", boxShadow: "0 8px 32px rgba(0,0,0,0.2)" }}>
+        <img src="/logo.png" alt="Maná en Casa" style={{ width: 120, height: 120, objectFit: "contain" }} />
       </div>
 
-      <p
-        style={{
-          fontFamily: "'DM Sans', sans-serif",
-          fontSize: 13,
-          color: "rgba(255,255,255,0.65)",
-          margin: "0 0 44px",
-          lineHeight: 1.6,
-          maxWidth: 240,
-        }}
-      >
+      <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, color: "rgba(255,255,255,0.65)", margin: "0 0 44px", lineHeight: 1.6, maxWidth: 240 }}>
         Acompañamiento integrativo para tu bienestar, desde casa y a tu ritmo.
       </p>
 
-      <button
-        onClick={onEnter}
-        style={{
-          background: COLORS.accent,
-          color: "#1E2A16",
-          border: "none",
-          borderRadius: 14,
-          padding: "15px 52px",
-          fontSize: 15,
-          fontWeight: 600,
-          cursor: "pointer",
-          fontFamily: "'DM Sans', sans-serif",
-          boxShadow: "0 4px 20px rgba(212,166,41,0.3)",
-          letterSpacing: "0.02em",
-        }}
-        onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.96)")}
-        onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
-      >
+      <button onClick={onEnter} style={{ background: COLORS.accent, color: "#1E2A16", border: "none", borderRadius: 14, padding: "15px 52px", fontSize: 15, fontWeight: 600, cursor: "pointer", fontFamily: "'DM Sans', sans-serif", boxShadow: "0 4px 20px rgba(212,166,41,0.3)", letterSpacing: "0.02em" }}
+        onMouseDown={e => e.currentTarget.style.transform = "scale(0.96)"}
+        onMouseUp={e => e.currentTarget.style.transform = "scale(1)"}>
         Comenzar
       </button>
 
-      <p
-        style={{
-          fontFamily: "'DM Sans', sans-serif",
-          fontSize: 10,
-          color: "rgba(255,255,255,0.35)",
-          margin: "44px 0 0",
-          lineHeight: 1.4,
-          letterSpacing: "0.06em",
-          textTransform: "uppercase",
-        }}
-      >
+      <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10, color: "rgba(255,255,255,0.35)", margin: "44px 0 0", lineHeight: 1.4, letterSpacing: "0.06em", textTransform: "uppercase" }}>
         Centro Médico Integrativo Maná · Cali
       </p>
     </div>
   );
 }
+
+// ─── HOME ──────────────────────────────────────────────
 function Home({ onSelectRoute }) {
   const [show, setShow] = useState(false);
-
-  useEffect(() => {
-    setTimeout(() => setShow(true), 50);
-  }, []);
+  useEffect(() => { setTimeout(() => setShow(true), 50); }, []);
 
   const total = ROUTES.reduce((a, r) => a + r.modules.length, 0);
-  const done = ROUTES.reduce(
-    (a, r) => a + r.modules.filter((m) => m.completed).length,
-    0
-  );
+  const done = ROUTES.reduce((a, r) => a + r.modules.filter(m => m.completed).length, 0);
 
   return (
-    <div
-      style={{
-        height: "100dvh",
-        overflowY: "auto",
-        background: COLORS.bg,
-        transition: "opacity 0.4s",
-        opacity: show ? 1 : 0,
-        paddingBottom: "100px",
-      }}
-    >
-      <div
-        style={{
-          background: `linear-gradient(165deg, ${COLORS.bgDark} 0%, #3D6B1E 100%)`,
-          padding: "24px 20px 30px",
-          borderRadius: "0 0 24px 24px",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginBottom: 20,
-          }}
-        >
+    /* FIX 2: Un solo paddingBottom controlado con la constante NAV_HEIGHT */
+    <div style={{ height: "100dvh", overflowY: "auto", background: COLORS.bg, transition: "opacity 0.4s", opacity: show ? 1 : 0, paddingBottom: NAV_HEIGHT + 20 }}>
+      {/* Header */}
+      <div style={{ background: `linear-gradient(165deg, ${COLORS.bgDark} 0%, #3D6B1E 100%)`, padding: "24px 20px 30px", borderRadius: "0 0 24px 24px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
           <div>
-            <p
-              style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: 12,
-                color: "rgba(255,255,255,0.5)",
-                margin: 0,
-                letterSpacing: "0.04em",
-              }}
-            >
-              Bienvenida de nuevo
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: "rgba(255,255,255,0.5)", margin: 0, letterSpacing: "0.04em" }}>
+              Bienvenido de nuevo
             </p>
-            <h2
-              style={{
-                fontFamily: "'Cormorant Garamond', Georgia, serif",
-                fontSize: 24,
-                color: COLORS.white,
-                margin: "4px 0 0",
-                fontWeight: 600,
-              }}
-            >
-              Bienvenido a tu espacio de bienestar 👋 👋
+            {/* FIX 3: Texto limpio, un solo emoji */}
+            <h2 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 24, color: COLORS.white, margin: "4px 0 0", fontWeight: 600 }}>
+              Tu espacio de bienestar 👋
             </h2>
           </div>
-
-          <div
-            style={{
-              width: 40,
-              height: 40,
-              borderRadius: 12,
-              background: "rgba(255,255,255,0.12)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "rgba(255,255,255,0.7)",
-            }}
-          >
+          <div style={{ width: 40, height: 40, borderRadius: 12, background: "rgba(255,255,255,0.12)", display: "flex", alignItems: "center", justifyContent: "center", color: "rgba(255,255,255,0.7)" }}>
             <I.User />
           </div>
         </div>
 
-        <div
-          style={{
-            background: "rgba(255,255,255,0.1)",
-            borderRadius: 14,
-            padding: "14px 16px",
-            border: "1px solid rgba(255,255,255,0.08)",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginBottom: 8,
-            }}
-          >
-            <span
-              style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: 12,
-                color: "rgba(255,255,255,0.7)",
-              }}
-            >
-              Tu progreso
-            </span>
-            <span
-              style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: 12,
-                color: COLORS.accentWarm,
-                fontWeight: 600,
-              }}
-            >
-              {done}/{total}
-            </span>
+        {/* Progress */}
+        <div style={{ background: "rgba(255,255,255,0.1)", borderRadius: 14, padding: "14px 16px", border: "1px solid rgba(255,255,255,0.08)" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+            <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: "rgba(255,255,255,0.7)" }}>Tu progreso</span>
+            <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: COLORS.accentWarm, fontWeight: 600 }}>{done}/{total}</span>
           </div>
-
-          <div
-            style={{
-              height: 5,
-              background: "rgba(255,255,255,0.12)",
-              borderRadius: 3,
-            }}
-          >
-            <div
-              style={{
-                height: "100%",
-                width: `${(done / total) * 100}%`,
-                background: `linear-gradient(90deg, ${COLORS.accent}, ${COLORS.accentWarm})`,
-                borderRadius: 3,
-              }}
-            />
+          <div style={{ height: 5, background: "rgba(255,255,255,0.12)", borderRadius: 3 }}>
+            <div style={{ height: "100%", width: `${(done / total) * 100}%`, background: `linear-gradient(90deg, ${COLORS.accent}, ${COLORS.accentWarm})`, borderRadius: 3 }} />
           </div>
         </div>
       </div>
 
-      <div style={{ padding: "22px 20px 100px" }}>
-        <h3
-          style={{
-            fontFamily: "'Cormorant Garamond', Georgia, serif",
-            fontSize: 20,
-            color: COLORS.text,
-            margin: "0 0 4px",
-            fontWeight: 600,
-          }}
-        >
-          Rutas de bienestar
-        </h3>
-
-        <p
-          style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: 12,
-            color: COLORS.textMuted,
-            margin: "0 0 16px",
-          }}
-        >
-          Selecciona la que mejor se adapte a ti
-        </p>
+      {/* Routes list — FIX 2: sin padding-bottom duplicado */}
+      <div style={{ padding: "22px 20px 0" }}>
+        <h3 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 20, color: COLORS.text, margin: "0 0 4px", fontWeight: 600 }}>Rutas de bienestar</h3>
+        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: COLORS.textMuted, margin: "0 0 16px" }}>Selecciona la que mejor se adapte a ti</p>
 
         {ROUTES.map((route, i) => {
-          const c = route.modules.filter((m) => m.completed).length;
+          const c = route.modules.filter(m => m.completed).length;
           const p = (c / route.modules.length) * 100;
-
           return (
-            <div
-              key={route.id}
-              onClick={() => onSelectRoute(route)}
-              style={{
-                background: COLORS.white,
-                borderRadius: 18,
-                padding: "16px",
-                marginBottom: 12,
-                cursor: "pointer",
-                border: "1px solid rgba(0,0,0,0.04)",
-                boxShadow: "0 1px 8px rgba(0,0,0,0.03)",
-                animation: `fadeUp 0.4s ease ${i * 0.07}s both`,
-                transition: "transform 0.15s",
-              }}
-              onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.98)")}
-              onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
-            >
+            <div key={route.id} onClick={() => onSelectRoute(route)}
+              style={{ background: COLORS.white, borderRadius: 18, padding: "16px", marginBottom: 12, cursor: "pointer", border: "1px solid rgba(0,0,0,0.04)", boxShadow: "0 1px 8px rgba(0,0,0,0.03)", animation: `fadeUp 0.4s ease ${i * 0.07}s both`, transition: "transform 0.15s" }}
+              onMouseDown={e => e.currentTarget.style.transform = "scale(0.98)"}
+              onMouseUp={e => e.currentTarget.style.transform = "scale(1)"}>
               <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
-                <div
-                  style={{
-                    width: 44,
-                    height: 44,
-                    borderRadius: 12,
-                    background: route.colorLight,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: 22,
-                    flexShrink: 0,
-                  }}
-                >
-                  {route.icon}
-                </div>
-
+                <div style={{ width: 44, height: 44, borderRadius: 12, background: route.colorLight, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0 }}>{route.icon}</div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <h4
-                    style={{
-                      fontFamily: "'DM Sans', sans-serif",
-                      fontSize: 14,
-                      fontWeight: 600,
-                      color: COLORS.text,
-                      margin: "0 0 2px",
-                    }}
-                  >
-                    {route.title}
-                  </h4>
-
-                  <p
-                    style={{
-                      fontFamily: "'DM Sans', sans-serif",
-                      fontSize: 11,
-                      color: COLORS.textMuted,
-                      margin: "0 0 8px",
-                    }}
-                  >
-                    {route.subtitle}
-                  </p>
-
+                  <h4 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, fontWeight: 600, color: COLORS.text, margin: "0 0 2px" }}>{route.title}</h4>
+                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: COLORS.textMuted, margin: "0 0 8px" }}>{route.subtitle}</p>
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                    <div
-                      style={{
-                        flex: 1,
-                        height: 3,
-                        background: "#EEEEEA",
-                        borderRadius: 2,
-                      }}
-                    >
-                      <div
-                        style={{
-                          height: "100%",
-                          width: `${p}%`,
-                          background: route.color,
-                          borderRadius: 2,
-                        }}
-                      />
+                    <div style={{ flex: 1, height: 3, background: "#EEEEEA", borderRadius: 2 }}>
+                      <div style={{ height: "100%", width: `${p}%`, background: route.color, borderRadius: 2 }} />
                     </div>
-
-                    <span
-                      style={{
-                        fontFamily: "'DM Sans', sans-serif",
-                        fontSize: 10,
-                        color: COLORS.textMuted,
-                      }}
-                    >
-                      {c}/{route.modules.length}
-                    </span>
+                    <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10, color: COLORS.textMuted }}>{c}/{route.modules.length}</span>
                   </div>
                 </div>
               </div>
@@ -491,53 +244,13 @@ function Home({ onSelectRoute }) {
           );
         })}
 
-        <div
-          style={{
-            background: COLORS.accentLight,
-            borderRadius: 16,
-            padding: "14px 16px",
-            marginTop: 6,
-            border: `1px solid ${COLORS.accent}20`,
-          }}
-        >
+        {/* Quick contact */}
+        <div style={{ background: COLORS.accentLight, borderRadius: 16, padding: "14px 16px", marginTop: 6, border: `1px solid ${COLORS.accent}20` }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <div
-              style={{
-                width: 36,
-                height: 36,
-                borderRadius: 10,
-                background: COLORS.accent,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: COLORS.white,
-              }}
-            >
-              <I.Steth />
-            </div>
-
+            <div style={{ width: 36, height: 36, borderRadius: 10, background: COLORS.accent, display: "flex", alignItems: "center", justifyContent: "center", color: COLORS.white }}><I.Steth /></div>
             <div>
-              <p
-                style={{
-                  fontFamily: "'DM Sans', sans-serif",
-                  fontSize: 13,
-                  fontWeight: 600,
-                  color: COLORS.text,
-                  margin: 0,
-                }}
-              >
-                ¿Necesitas orientación?
-              </p>
-              <p
-                style={{
-                  fontFamily: "'DM Sans', sans-serif",
-                  fontSize: 11,
-                  color: COLORS.textLight,
-                  margin: "1px 0 0",
-                }}
-              >
-                Escríbele a tu equipo de Maná
-              </p>
+              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, fontWeight: 600, color: COLORS.text, margin: 0 }}>¿Necesitas orientación?</p>
+              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: COLORS.textLight, margin: "1px 0 0" }}>Escríbele a tu equipo de Maná</p>
             </div>
           </div>
         </div>
@@ -551,8 +264,9 @@ function Route({ route, onBack, onSelectModule }) {
   const [show, setShow] = useState(false);
   useEffect(() => { setTimeout(() => setShow(true), 50); }, []);
   const done = route.modules.filter(m => m.completed).length;
+
   return (
-    <div style={{ height: "100%", overflowY: "auto", background: COLORS.bg, transition: "opacity 0.3s", opacity: show ? 1 : 0 }}>
+    <div style={{ height: "100dvh", overflowY: "auto", background: COLORS.bg, transition: "opacity 0.3s", opacity: show ? 1 : 0, paddingBottom: NAV_HEIGHT + 20 }}>
       <div style={{ background: `linear-gradient(165deg, ${route.color}E8 0%, ${route.color} 100%)`, padding: "18px 20px 26px", borderRadius: "0 0 24px 24px" }}>
         <button onClick={onBack} style={{ background: "rgba(255,255,255,0.15)", border: "none", borderRadius: 10, width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center", color: COLORS.white, cursor: "pointer", marginBottom: 14 }}><I.Back /></button>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -563,14 +277,15 @@ function Route({ route, onBack, onSelectModule }) {
           </div>
         </div>
       </div>
-      <div style={{ padding: "20px 20px 100px" }}>
+      <div style={{ padding: "20px 20px 0" }}>
         <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, fontWeight: 600, color: COLORS.textMuted, margin: "0 0 14px", textTransform: "uppercase", letterSpacing: "0.1em" }}>Módulos</p>
         {route.modules.map((mod, i) => {
           const isNext = !mod.completed && (i === 0 || route.modules[i - 1].completed);
           const isLocked = !mod.completed && !isNext;
           return (
             <div key={mod.id} onClick={() => !isLocked && onSelectModule(mod)} style={{ display: "flex", alignItems: "center", gap: 12, background: isLocked ? "rgba(255,255,255,0.5)" : COLORS.white, borderRadius: 14, padding: "14px", marginBottom: 8, cursor: isLocked ? "default" : "pointer", opacity: isLocked ? 0.45 : 1, border: isNext ? `2px solid ${route.color}` : "1px solid rgba(0,0,0,0.04)", boxShadow: isNext ? `0 3px 14px ${route.color}1A` : "none", animation: `fadeUp 0.3s ease ${i * 0.05}s both` }}
-              onMouseDown={e => { if (!isLocked) e.currentTarget.style.transform = "scale(0.98)"; }} onMouseUp={e => e.currentTarget.style.transform = "scale(1)"}>
+              onMouseDown={e => { if (!isLocked) e.currentTarget.style.transform = "scale(0.98)"; }}
+              onMouseUp={e => e.currentTarget.style.transform = "scale(1)"}>
               <div style={{ width: 34, height: 34, borderRadius: 9, flexShrink: 0, background: mod.completed ? route.color : isNext ? route.colorLight : "#F0F0EC", display: "flex", alignItems: "center", justifyContent: "center", color: mod.completed ? COLORS.white : isLocked ? COLORS.textMuted : route.color, fontFamily: "'DM Sans', sans-serif", fontSize: 13, fontWeight: 700 }}>
                 {mod.completed ? <I.Check /> : isLocked ? <I.Lock /> : mod.id}
               </div>
@@ -598,8 +313,9 @@ function Module({ module, route, onBack }) {
   useEffect(() => { setTimeout(() => setShow(true), 50); }, []);
   const onScroll = () => { const el = ref.current; if (el) setSp(Math.min(el.scrollTop / (el.scrollHeight - el.clientHeight), 1)); };
   const c = MODULE_CONTENT;
+
   return (
-    <div style={{ height: "100%", display: "flex", flexDirection: "column", background: COLORS.bg, transition: "opacity 0.3s", opacity: show ? 1 : 0 }}>
+    <div style={{ height: "100dvh", display: "flex", flexDirection: "column", background: COLORS.bg, transition: "opacity 0.3s", opacity: show ? 1 : 0 }}>
       <div style={{ padding: "14px 18px 10px", display: "flex", alignItems: "center", gap: 10, background: COLORS.white, borderBottom: "1px solid rgba(0,0,0,0.05)" }}>
         <button onClick={onBack} style={{ background: "transparent", border: "none", padding: 4, cursor: "pointer", color: COLORS.text, display: "flex" }}><I.Back /></button>
         <div style={{ flex: 1 }}>
@@ -656,7 +372,8 @@ function Messages({ onBack }) {
   };
 
   return (
-    <div style={{ height: "100%", display: "flex", flexDirection: "column", background: COLORS.bg, transition: "opacity 0.3s", opacity: show ? 1 : 0 }}>
+    /* FIX 5: paddingBottom respeta el nav fijo */
+    <div style={{ height: "100dvh", display: "flex", flexDirection: "column", background: COLORS.bg, transition: "opacity 0.3s", opacity: show ? 1 : 0, paddingBottom: NAV_HEIGHT }}>
       {/* Header */}
       <div style={{ background: COLORS.white, padding: "14px 18px", borderBottom: "1px solid rgba(0,0,0,0.06)" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
@@ -732,7 +449,7 @@ function Appointment({ onBack }) {
   ];
 
   return (
-    <div style={{ height: "100%", overflowY: "auto", background: COLORS.bg, transition: "opacity 0.3s", opacity: show ? 1 : 0 }}>
+    <div style={{ height: "100dvh", overflowY: "auto", background: COLORS.bg, transition: "opacity 0.3s", opacity: show ? 1 : 0, paddingBottom: NAV_HEIGHT + 20 }}>
       <div style={{ background: `linear-gradient(165deg, ${COLORS.secondaryDark} 0%, ${COLORS.secondary} 100%)`, padding: "18px 20px 26px", borderRadius: "0 0 24px 24px" }}>
         <button onClick={onBack} style={{ background: "rgba(255,255,255,0.15)", border: "none", borderRadius: 10, width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center", color: COLORS.white, cursor: "pointer", marginBottom: 14 }}><I.Back /></button>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -744,7 +461,7 @@ function Appointment({ onBack }) {
         </div>
       </div>
 
-      <div style={{ padding: "20px 20px 100px" }}>
+      <div style={{ padding: "20px 20px 0" }}>
         <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, fontWeight: 600, color: COLORS.textMuted, margin: "0 0 10px", textTransform: "uppercase", letterSpacing: "0.1em" }}>Tipo de consulta</p>
         {types.map((t, i) => (
           <div key={t.id} onClick={() => setSel(t.id)} style={{ background: sel === t.id ? COLORS.secondaryLight : COLORS.white, borderRadius: 14, padding: "14px", marginBottom: 8, cursor: "pointer", border: sel === t.id ? `2px solid ${COLORS.secondary}` : "1px solid rgba(0,0,0,0.04)", boxShadow: sel === t.id ? `0 3px 14px ${COLORS.secondary}15` : "none", animation: `fadeUp 0.3s ease ${i * 0.05}s both`, transition: "all 0.2s" }}>
@@ -802,7 +519,17 @@ function Nav({ active, onNav, unread }) {
     { id: "profile", icon: <I.User />, label: "Perfil" },
   ];
   return (
-    <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "rgba(255,255,255,0.96)", backdropFilter: "blur(20px)", borderTop: "1px solid rgba(0,0,0,0.05)", display: "flex", justifyContent: "space-around", padding: "5px 0 12px" }}>
+    /* FIX 4: position fixed + safe-area para iPhones con barra inferior */
+    <div style={{
+      position: "fixed", bottom: 0, left: 0, right: 0,
+      background: "rgba(255,255,255,0.96)",
+      backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)",
+      borderTop: "1px solid rgba(0,0,0,0.05)",
+      display: "flex", justifyContent: "space-around",
+      padding: "5px 0 12px",
+      paddingBottom: "max(12px, env(safe-area-inset-bottom))",
+      zIndex: 100,
+    }}>
       {items.map(it => (
         <button key={it.id} onClick={() => onNav(it.id)} style={{ background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: 1, color: active === it.id ? COLORS.primary : COLORS.textMuted, padding: "4px 8px", transition: "color 0.2s", position: "relative" }}>
           <div style={{ position: "relative" }}>
@@ -835,71 +562,49 @@ export default function App() {
   const showNav = scr !== "splash" && scr !== "module";
 
   return (
-   <div
-    style={{
-      height: "100dvh",
-      width: "100%",
-      background: COLORS.bg,
-      fontFamily: "'DM Sans', sans-serif",
-      position: "relative",
-      overflow: "hidden",
-    }}
-  >
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>{`
-      @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-      @keyframes pulse { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
-      * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
-      html, body, #root { margin: 0; padding: 0; min-height: 100%; }
-      body { background: ${COLORS.bg}; }
-      ::-webkit-scrollbar { width: 0; }
-      textarea::placeholder { color: #AAA; }
-    `}</style>
+    <div style={{ height: "100dvh", width: "100%", background: COLORS.bg, fontFamily: "'DM Sans', sans-serif", position: "relative", overflow: "hidden" }}>
+      <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+      <style>{`
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
+        * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+        html, body, #root { margin: 0; padding: 0; min-height: 100%; }
+        body { background: ${COLORS.bg}; }
+        ::-webkit-scrollbar { width: 0; }
+        textarea::placeholder { color: #AAA; }
+      `}</style>
 
-    {scr === "splash" && <Splash onEnter={() => { setScr("home"); setTab("home"); }} />}
-    {scr === "home" && <Home onSelectRoute={(r) => { setRoute(r); setScr("route"); }} />}
-    {scr === "route" && route && (
-      <Route
-        route={route}
-        onBack={() => { setRoute(null); setScr("home"); setTab("home"); }}
-        onSelectModule={(m) => { setMod(m); setScr("module"); }}
-      />
-    )}
-    {scr === "module" && mod && route && (
-      <Module
-        module={mod}
-        route={route}
-        onBack={() => { setMod(null); setScr("route"); }}
-      />
-    )}
-    {scr === "messages" && <Messages onBack={() => { setScr("home"); setTab("home"); }} />}
-    {scr === "appointment" && <Appointment onBack={() => { setScr("home"); setTab("home"); }} />}
-    {showNav && <Nav active={tab} onNav={nav} unread={true} />}
-    <a
-  href="https://wa.me/573108211543?text=Hola%20quiero%20información%20sobre%20Maná%20en%20Casa"
-  target="_blank"
-  rel="noopener noreferrer"
-  style={{
-    position: "fixed",
-    bottom: 90,
-    right: 20,
-    width: 60,
-    height: 60,
-    borderRadius: "50%",
-    background: "#25D366",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    boxShadow: "0 8px 24px rgba(0,0,0,0.3)",
-    zIndex: 999,
-    textDecoration: "none",
-    fontSize: 28
-  }}
->
-  💬
-</a>
-  </div>);
+      {scr === "splash" && <Splash onEnter={() => { setScr("home"); setTab("home"); }} />}
+      {scr === "home" && <Home onSelectRoute={(r) => { setRoute(r); setScr("route"); }} />}
+      {scr === "route" && route && (
+        <Route route={route} onBack={() => { setRoute(null); setScr("home"); setTab("home"); }} onSelectModule={(m) => { setMod(m); setScr("module"); }} />
+      )}
+      {scr === "module" && mod && route && (
+        <Module module={mod} route={route} onBack={() => { setMod(null); setScr("route"); }} />
+      )}
+      {scr === "messages" && <Messages onBack={() => { setScr("home"); setTab("home"); }} />}
+      {scr === "appointment" && <Appointment onBack={() => { setScr("home"); setTab("home"); }} />}
+
+      {showNav && <Nav active={tab} onNav={nav} unread={true} />}
+
+      {/* FIX 6: Botón flotante WhatsApp — posición calculada sobre el nav */}
+      {showNav && (
+        <a
+          href="https://wa.me/573108211543?text=Hola%20quiero%20información%20sobre%20Maná%20en%20Casa"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            position: "fixed", bottom: NAV_HEIGHT + 24, right: 16,
+            width: 54, height: 54, borderRadius: "50%",
+            background: "#25D366",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            boxShadow: "0 4px 16px rgba(37,211,102,0.4)",
+            zIndex: 99, textDecoration: "none", color: COLORS.white,
+          }}
+        >
+          <I.WA />
+        </a>
+      )}
+    </div>
+  );
 }
